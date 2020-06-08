@@ -4,27 +4,15 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-
-    public GameObject PanelShop;
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            ShowShop();
+            Events.OpenShop();
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            HideAllPanels();
+            Events.CloseShop();
         }
-    }
-
-    void ShowShop()
-    {
-        PanelShop.SetActive(true);
-    }
-    void HideAllPanels()
-    {
-        PanelShop.SetActive(false);
     }
 }

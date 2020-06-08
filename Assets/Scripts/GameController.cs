@@ -13,6 +13,14 @@ public class GameController : MonoBehaviour
     float _startPosition;
     float _currentPosition;
 
+    private void OnEnable()
+    {
+        Events.OnRestart += ReloadScene;
+    }
+    private void OnDisable()
+    {
+        Events.OnRestart -= ReloadScene;
+    }
 
     private void Start()
     {

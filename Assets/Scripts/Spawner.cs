@@ -31,7 +31,6 @@ public class Spawner : MonoBehaviour
             var rndShape = Shapes[Random.Range(0, Shapes.Length)];
             Vector3 v = PointB.position - PointA.position;
             Vector3 rndPos = PointA.position + Random.value * v;
-            Debug.Log(rndPos);
             Instantiate(rndShape, rndPos, Quaternion.identity);
 
             yield return new WaitForSeconds(SpawnTime);

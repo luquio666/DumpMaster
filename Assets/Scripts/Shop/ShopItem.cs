@@ -17,7 +17,9 @@ public class ShopItem : MonoBehaviour
 
     public void BuyItem()
     {
-
+        Events.CloseShop();
+        Events.CloseShopItems();
+        Events.Restart();
     }
 
 }

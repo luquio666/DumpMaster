@@ -6,6 +6,8 @@ public class Platformer : MonoBehaviour
 {
     Rigidbody2D _rb;
 
+    public BoxCollider2D PlayerCollider;
+
     public float Speed = 4f;
     public float JumpForce = 12f;
 
@@ -25,7 +27,10 @@ public class Platformer : MonoBehaviour
 
 
     public float PowerupDistanceTravel = 5f;
-    public float PowerupDuration = 3f;
+    public float PowerupSpeed = 3f;
+    public float PowerupColIncrement = 0.1f;
+    public CircleCollider2D PowerupCollider;
+    Vector3 _powerupTarget;
     bool _usingPowerup = false;
 
 
@@ -89,24 +94,43 @@ public class Platformer : MonoBehaviour
 
     void Powerup()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && _usingPowerup == false)
         {
             _usingPowerup = true;
+            _rb.bodyType = RigidbodyType2D.Kinematic;
+            PlayerCollider.enabled = false;
+            PowerupCollider.enabled = true;
             StartCoroutine(PowerupCo());
         }
     }
+
     IEnumerator PowerupCo()
     {
         yield return null;
 
-        var endTime = Time.time + PowerupDuration;
-        while (Time.time > endTime)
+        // Target will be up and centered
+        _powerupTarget = new Vector3(0, this.transform.position.y + PowerupDistanceTravel, 0);
+
+        var colSizeTarget = 2.5f;
+
+        while (this.transform.position != _powerupTarget)
         {
-            this.transform.position += this.transform.position + new Vector3(0, 0.01f, 0);
-            yield return new WaitForSeconds(0.01f);
+            if (PowerupCollider.radius < 2.5f)
+            {
+                PowerupCollider.radius += PowerupColIncrement;
+            }
+            float step = PowerupSpeed * Time.deltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, _powerupTarget, step);
+            yield return null;
         }
+
+        _rb.bodyType = RigidbodyType2D.Dynamic;
         _usingPowerup = false;
-        
+
+        PowerupCollider.radius = 0.5f;
+        PlayerCollider.enabled = true;
+
+        PowerupCollider.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

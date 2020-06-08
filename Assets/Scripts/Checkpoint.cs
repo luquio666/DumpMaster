@@ -12,6 +12,7 @@ public class Checkpoint : MonoBehaviour
         if (collision.tag == ETags.Player.ToString())
         {
             print("player arrived, show shop sequence");
+            Events.OnOpenShop();
         }
             
     }

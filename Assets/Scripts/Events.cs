@@ -1,18 +1,43 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Events : MonoBehaviour
+public static class Events
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Action OnCameraSetPosition;
+    public static void CameraSetPosition()
     {
-        
+        OnCameraSetPosition?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static Action OnOpenShop;
+    public static void OpenShop()
     {
-        
+        OnOpenShop?.Invoke();
+    }
+
+    public static Action OnCloseShop;
+    public static void CloseShop()
+    {
+        OnCloseShop?.Invoke();
+    }
+
+    public static Action OnOpenShopItems;
+    public static void OpenShopItems()
+    {
+        OnOpenShopItems?.Invoke();
+    }
+
+    public static Action OnCloseShopItems;
+    public static void CloseShopItems()
+    {
+        OnCloseShopItems?.Invoke();
+    }
+
+    public static Action OnRestart;
+    public static void Restart()
+    {
+        OnRestart?.Invoke();
     }
 }

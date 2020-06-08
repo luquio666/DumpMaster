@@ -4,28 +4,62 @@ using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
-    public Text
-    public GameObject Dialog;
-    public GameObject ShopItems;
+    public GameObject ShopUI;
+    public GameObject ShopItemsUI;
 
-    public void DialogOption_ShowShop()
+    #region Events
+    private void OnEnable()
     {
-        print("SHOWING SHOP");
+        Events.OnOpenShop += OpenShop;
+        Events.OnCloseShop += CloseShop;
+        Events.OnOpenShopItems += OpenShopItems;
+        Events.OnCloseShopItems += CloseShopItems;
     }
 
-    public void DialogOption_Leave()
+    private void OnDisable()
     {
-        print("CONTINUE WITHOUT SAVE");
+        Events.OnOpenShop -= OpenShop;
+        Events.OnCloseShop -= CloseShop;
+        Events.OnOpenShopItems -= OpenShopItems;
+        Events.OnCloseShopItems -= CloseShopItems;
     }
 
-    public void DialogOption_SaveCheckpoint()
+    void OpenShop()
     {
-        print("CHECKPOINT SAVED");
+        ShopUI.SetActive(true);
     }
 
-    public void Shop_GetItem()
+    void CloseShop()
     {
-        // Get items like powerup
+        ShopUI.SetActive(false);
+    }
+
+    void OpenShopItems()
+    {
+        ShopItemsUI.SetActive(true);
+    }
+
+    void CloseShopItems()
+    {
+        ShopItemsUI.SetActive(false);
+    }
+    #endregion
+
+    public void Option_ShowItems()
+    {
+        Events.OpenShopItems();
+    }
+
+    public void Option_ContinueWithoutSave()
+    {
+        Events.CloseShop();
+        Events.Restart();
+    }
+
+    public void Option_SaveAndContinue()
+    {
+        Events.CloseShop();
+        Events.Restart();
     }
 
 }
