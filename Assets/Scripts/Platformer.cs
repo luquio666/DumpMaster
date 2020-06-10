@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,14 @@ public class Platformer : MonoBehaviour
     public int DefaultAdditionalJumps = 1;
     int _additionalJumps;
 
+    [Space]
+
+    public Transform SkeletonParent;
+    public SkeletonAnimation Skel;
+    string _setAnim;
+    string _addAnim;
+
+    [Space]
 
     public float PowerupDistanceTravel = 5f;
     public float PowerupSpeed = 3f;
@@ -61,12 +70,22 @@ public class Platformer : MonoBehaviour
         float moveBy = x * Speed;
 
         _rb.velocity = new Vector2(moveBy, _rb.velocity.y);
+
+        if (x > 0)
+        {
+            SkeletonParent.transform.localScale = new Vector3(1, 1, 1);
+        }
+        if (x < 0)
+        {
+            SkeletonParent.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     void Jump() {
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && (_isGrounded || Time.time - _lastTimeGrounded <= RememberGroundedFor || _additionalJumps > 0)) {
             _rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
             _additionalJumps--;
+            PlayAnimation("start_jump", "air_jump");
         }
     }
 
@@ -84,13 +103,37 @@ public class Platformer : MonoBehaviour
         if (colliders != null) {
             _isGrounded = true;
             _additionalJumps = DefaultAdditionalJumps;
+            PlayAnimation("end_jump", "idle");
         } else {
             if (_isGrounded) {
                 _lastTimeGrounded = Time.time;
             }
             _isGrounded = false;
+            PlayAnimation("start_jump", "air_jump");
         }
     }
+
+
+    void PlayAnimation(string setAnim, string addAnim)
+    {
+        if (_setAnim != setAnim && _addAnim != addAnim)
+        {
+            _setAnim = setAnim;
+            _addAnim = addAnim;
+
+            if (string.IsNullOrEmpty(addAnim))
+            {
+                Skel.AnimationState.SetAnimation(0, setAnim, true);
+            }
+            else
+            {
+                Skel.AnimationState.SetAnimation(0, setAnim, false).TrackEnd = float.PositiveInfinity;
+                Skel.AnimationState.AddAnimation(0, addAnim, true, 0);
+            }
+        }
+    }
+
+    #region Powerup
 
     void Powerup()
     {
@@ -132,6 +175,8 @@ public class Platformer : MonoBehaviour
 
         PowerupCollider.enabled = false;
     }
+
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
