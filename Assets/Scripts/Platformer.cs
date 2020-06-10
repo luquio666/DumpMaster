@@ -113,6 +113,11 @@ public class Platformer : MonoBehaviour
         }
     }
 
+    void ResetAnimationState()
+    {
+        _addAnim = "";
+        _setAnim = "";
+    }
 
     void PlayAnimation(string setAnim, string addAnim)
     {
@@ -139,6 +144,8 @@ public class Platformer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) && _usingPowerup == false)
         {
+            ResetAnimationState();
+            PlayAnimation("start_jump", "air_jump");
             _usingPowerup = true;
             _rb.bodyType = RigidbodyType2D.Kinematic;
             PlayerCollider.enabled = false;
@@ -151,8 +158,10 @@ public class Platformer : MonoBehaviour
     {
         yield return null;
 
-        // Target will be up and centered
-        _powerupTarget = new Vector3(0, this.transform.position.y + PowerupDistanceTravel, 0);
+        _rb.velocity = Vector3.zero;
+
+       // Target will be up and centered
+       _powerupTarget = new Vector3(0, this.transform.position.y + PowerupDistanceTravel, 0);
 
         var colSizeTarget = 2.5f;
 
