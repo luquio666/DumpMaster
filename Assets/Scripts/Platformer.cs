@@ -26,6 +26,15 @@ public class Platformer : MonoBehaviour
     public int DefaultAdditionalJumps = 1;
     int _additionalJumps;
 
+    bool _walking;
+
+    [Space]
+
+    public Transform HitHeadChecker;
+    public float CheckHeadRadius = 0.3f;
+    int _lastHeadColliderInstanceID;
+    bool _headHitRunning = false;
+
     [Space]
 
     public Transform SkeletonParent;
@@ -56,6 +65,7 @@ public class Platformer : MonoBehaviour
 
         if (_usingPowerup == false)
         {
+            CheckIfHeadHit();
             Move();
             Jump();
             BetterJump();
@@ -63,6 +73,29 @@ public class Platformer : MonoBehaviour
         }
     }
 
+    void CheckIfHeadHit()
+    {
+        Collider2D colliders = Physics2D.OverlapCircle(HitHeadChecker.position, CheckHeadRadius, GroundLayer);
+
+        if (colliders != null && colliders.gameObject.GetInstanceID() != _lastHeadColliderInstanceID)
+        {
+            _lastHeadColliderInstanceID = colliders.gameObject.GetInstanceID();
+            if (_headHitRunning == false)
+            {
+                StartCoroutine(HeadHitCo());
+            }
+        }
+
+    }
+
+    IEnumerator HeadHitCo()
+    {
+        _headHitRunning = true;
+        PlayAnimation("hit", "");
+        yield return new WaitForSeconds(0.333f);
+
+        _headHitRunning = false;
+    }
 
     void Move() {
         float x = Input.GetAxisRaw("Horizontal");
@@ -74,10 +107,16 @@ public class Platformer : MonoBehaviour
         if (x > 0)
         {
             SkeletonParent.transform.localScale = new Vector3(1, 1, 1);
+            _walking = true;
         }
-        if (x < 0)
+        else if (x < 0)
         {
             SkeletonParent.transform.localScale = new Vector3(-1, 1, 1);
+            _walking = true;
+        }
+        else
+        {
+            _walking = false;
         }
     }
 
@@ -103,7 +142,14 @@ public class Platformer : MonoBehaviour
         if (colliders != null) {
             _isGrounded = true;
             _additionalJumps = DefaultAdditionalJumps;
-            PlayAnimation("end_jump", "idle");
+            if (_walking == true)
+            {
+                PlayAnimation("walk", "");
+            }
+            else
+            {
+                PlayAnimation("end_jump", "idle");
+            }
         } else {
             if (_isGrounded) {
                 _lastTimeGrounded = Time.time;
@@ -113,6 +159,7 @@ public class Platformer : MonoBehaviour
         }
     }
 
+    #region Animations
     void ResetAnimationState()
     {
         _addAnim = "";
@@ -137,6 +184,7 @@ public class Platformer : MonoBehaviour
             }
         }
     }
+    #endregion
 
     #region Powerup
 
@@ -167,10 +215,12 @@ public class Platformer : MonoBehaviour
 
         while (this.transform.position != _powerupTarget)
         {
-            if (PowerupCollider.radius < 2.5f)
+            // Make collider expand
+            if (PowerupCollider.radius < colSizeTarget)
             {
                 PowerupCollider.radius += PowerupColIncrement;
             }
+            // Apply powerup
             float step = PowerupSpeed * Time.deltaTime;
             this.transform.position = Vector3.MoveTowards(this.transform.position, _powerupTarget, step);
             yield return null;
@@ -197,6 +247,15 @@ public class Platformer : MonoBehaviour
         {
             print("powerup added");
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(HitHeadChecker.position, CheckHeadRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(IsGroundedChecker.position, CheckGroundRadius);
     }
 
 }

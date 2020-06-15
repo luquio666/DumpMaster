@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: the_fly_guy_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: fdde004ea299f5540b20c2463d5a61c4, type: 2}
+  - {fileID: 11400000, guid: 66288bbe9c7940140aabe565d8fd155b, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: ffee02ef7f6194446a5174e2b526feda, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 3256866aa9137914793b5418e58b0a65, type: 3}
   skeletonDataModifiers: []
   fromAnimation: []
   toAnimation: []

@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 1a9177144cab3b146a77dcbf4a2dd1e8, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: b190772b6701fd04caa0525058a59351, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -574,7 +574,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 229cfb002c1292f4ea39d0f259f8747c, type: 2}
+  - {fileID: 2100000, guid: 220c2cdddb04f2549a922f2ee02d86b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -977,6 +977,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94158242}
   m_CullTransparentMesh: 0
+--- !u!1 &140779846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 140779847}
+  m_Layer: 0
+  m_Name: CheckHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &140779847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140779846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.01, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1303537547}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &150954084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1501,7 @@ Transform:
   m_Children:
   - {fileID: 89210691}
   m_Father: {fileID: 1303537547}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262680570
 GameObject:
@@ -7332,6 +7362,8 @@ MonoBehaviour:
     m_Bits: 512
   RememberGroundedFor: 0.1
   DefaultAdditionalJumps: 1
+  HitHeadChecker: {fileID: 140779847}
+  CheckHeadRadius: 0.5
   SkeletonParent: {fileID: 243890839}
   Skel: {fileID: 89210692}
   PowerupDistanceTravel: 15
@@ -7349,6 +7381,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 140779847}
   - {fileID: 1460190514}
   - {fileID: 1743628004}
   - {fileID: 243890839}
@@ -7908,7 +7941,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1303537547}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1460190515
 SpriteRenderer:
@@ -9538,7 +9571,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1303537547}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1753777284
 GameObject:
