@@ -66,6 +66,8 @@ public class Platformer : MonoBehaviour
         if (_usingPowerup == false)
         {
             CheckIfHeadHit();
+
+            // Basic movement
             Move();
             Jump();
             BetterJump();
@@ -85,6 +87,9 @@ public class Platformer : MonoBehaviour
                 StartCoroutine(HeadHitCo());
             }
         }
+
+        if (colliders == null)
+            _lastHeadColliderInstanceID = -1;
 
     }
 
