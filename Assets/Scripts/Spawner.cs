@@ -6,8 +6,6 @@ public class Spawner : MonoBehaviour
 {
     public Transform PointA, PointB;
     public float SpawnTime = 1f;
-    public float MaxTorque = 10f;
-    public float MinTorque = 0;
 
     [Space]
 
@@ -51,14 +49,8 @@ public class Spawner : MonoBehaviour
             var rndShape = Shapes[Random.Range(0, Shapes.Length)];
             Vector3 v = PointB.position - PointA.position;
             Vector3 rndPos = PointA.position + Random.value * v;
-
-            // Add torque
-            var targetTorque = Random.Range(MinTorque, MaxTorque);
-            if (Random.Range(0, 2) == 0)
-                targetTorque *= -1;
-
-            var shape = Instantiate(rndShape, rndPos, Quaternion.identity);
-            shape.GetComponent<Rigidbody2D>().AddTorque(targetTorque);
+            
+            Instantiate(rndShape, rndPos, Quaternion.identity);
 
             // Wait for next one
             yield return new WaitForSeconds(SpawnTime);

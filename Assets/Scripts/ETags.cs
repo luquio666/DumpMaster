@@ -1,7 +1,7 @@
 ﻿public enum ETags
 {
     Player,
-    item_powerup,
-    item_worm
+    item_bean,
+    item_grub
 }
 

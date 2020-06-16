@@ -124,12 +124,14 @@ public class Platformer : MonoBehaviour
             _walking = false;
         }
     }
-
+    bool _performingDoubleJump;
     void Jump() {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && (_isGrounded || Time.time - _lastTimeGrounded <= RememberGroundedFor || _additionalJumps > 0)) {
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && (_isGrounded || Time.time - _lastTimeGrounded <= RememberGroundedFor || _additionalJumps > 0))
+        {  
             _rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
             _additionalJumps--;
-            PlayAnimation("start_jump", "air_jump");
+            if (_additionalJumps == 0)
+                _performingDoubleJump = true;
         }
     }
 
@@ -147,6 +149,7 @@ public class Platformer : MonoBehaviour
         if (colliders != null) {
             _isGrounded = true;
             _additionalJumps = DefaultAdditionalJumps;
+            _performingDoubleJump = false;
             if (_walking == true)
             {
                 PlayAnimation("walk", "");
@@ -160,7 +163,14 @@ public class Platformer : MonoBehaviour
                 _lastTimeGrounded = Time.time;
             }
             _isGrounded = false;
-            PlayAnimation("start_jump", "air_jump");
+            if (_performingDoubleJump)
+            {
+                PlayAnimation("double_jump", "air_jump");
+            }
+            else
+            {
+                PlayAnimation("start_jump", "air_jump");
+            }
         }
     }
 
@@ -173,7 +183,7 @@ public class Platformer : MonoBehaviour
 
     void PlayAnimation(string setAnim, string addAnim)
     {
-        if (_setAnim != setAnim && _addAnim != addAnim)
+        if (_setAnim != setAnim || _addAnim != addAnim)
         {
             _setAnim = setAnim;
             _addAnim = addAnim;
@@ -244,13 +254,15 @@ public class Platformer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == ETags.item_worm.ToString())
+        if (collision.tag == ETags.item_grub.ToString())
         {
-            print("worm added");
+            collision.GetComponent<Grub>().Destroy();
+            print("ITEM COLLECTED: GRUB");
         }
-        if (collision.tag == ETags.item_powerup.ToString())
+        if (collision.tag == ETags.item_bean.ToString())
         {
-            print("powerup added");
+            collision.GetComponent<Bean>().Destroy();
+            print("ITEM COLLECTED: POWERUP");
         }
     }
 
