@@ -37,6 +37,11 @@ public class Shapes : MonoBehaviour
         this.GetComponent<Rigidbody2D>().AddTorque(targetTorque);
     }
 
+    public void SetSorting(int index)
+    {
+        SR.sortingOrder = index;
+    }
+
     void Update()
     {
         // Check distance below player to remove rigidbody physics
