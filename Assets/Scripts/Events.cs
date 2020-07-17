@@ -5,6 +5,18 @@ using UnityEngine;
 
 public static class Events
 {
+    public static Action OnFinalPositionReached;
+    public static void FinalPositionReached()
+    {
+        OnFinalPositionReached?.Invoke();
+    }
+
+    public static Action<Transform> OnCheckpointReached;
+    public static void CheckpointReached(Transform target)
+    {
+        OnCheckpointReached?.Invoke(target);
+    }
+
     public static Action OnCameraSetPosition;
     public static void CameraSetPosition()
     {

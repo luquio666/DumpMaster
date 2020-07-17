@@ -52,6 +52,27 @@ public class Platformer : MonoBehaviour
     bool _usingPowerup = false;
 
 
+    void OnEnable()
+    {
+        Events.OnCheckpointReached += CheckpointReached;
+    }
+
+    void OnDisable()
+    {
+        Events.OnCheckpointReached -= CheckpointReached;
+    }
+
+    void CheckpointReached(Transform target)
+    {
+        ResetAnimationState();
+        PlayAnimation("start_jump", "air_jump");
+        _usingPowerup = true;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        PlayerCollider.enabled = false;
+        PowerupCollider.enabled = true;
+        StartCoroutine(GoToFinalPosition(target));
+    }
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -248,6 +269,32 @@ public class Platformer : MonoBehaviour
         PlayerCollider.enabled = true;
 
         PowerupCollider.enabled = false;
+    }
+
+    IEnumerator GoToFinalPosition(Transform target)
+    {
+        yield return null;
+
+        _rb.velocity = Vector3.zero;
+
+        var colSizeTarget = 2.5f;
+
+        while (this.transform.position != target.position
+            )
+        {
+            // Make collider expand
+            if (PowerupCollider.radius < colSizeTarget)
+            {
+                PowerupCollider.radius += PowerupColIncrement;
+            }
+            // Apply powerup
+            float step = PowerupSpeed * Time.deltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, target.position, step);
+            yield return null;
+        }
+                
+        Events.FinalPositionReached();
+        SkeletonParent.gameObject.SetActive(false);
     }
 
     #endregion

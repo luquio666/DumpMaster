@@ -6,15 +6,14 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public Transform FinalPosition;
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == ETags.Player.ToString())
         {
-            print("player arrived, show shop sequence");
-            Events.OnOpenShop();
+            print("player reached checkpoint");
+            Events.CheckpointReached(FinalPosition);
         }
-            
     }
 
 }
