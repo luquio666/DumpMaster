@@ -27,7 +27,7 @@ public class FollowPosition : MonoBehaviour
 
     void ApplySmoothFollow()
     {
-        var target = new Vector3(0, TargetToFollow.position.y + Offset, 0);
+        var target = new Vector3(TargetToFollow.position.x, TargetToFollow.position.y + Offset, 0);
         transform.position = Vector3.MoveTowards(transform.position, target, Speed * Time.deltaTime);
     }
 
