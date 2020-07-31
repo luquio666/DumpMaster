@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Events
+public static class GameEvents
 {
     public static Action OnFinalPositionReached;
     public static void FinalPositionReached()
@@ -22,31 +22,7 @@ public static class Events
     {
         OnCameraSetPosition?.Invoke();
     }
-
-    public static Action OnOpenShop;
-    public static void OpenShop()
-    {
-        OnOpenShop?.Invoke();
-    }
-
-    public static Action OnCloseShop;
-    public static void CloseShop()
-    {
-        OnCloseShop?.Invoke();
-    }
-
-    public static Action OnOpenShopItems;
-    public static void OpenShopItems()
-    {
-        OnOpenShopItems?.Invoke();
-    }
-
-    public static Action OnCloseShopItems;
-    public static void CloseShopItems()
-    {
-        OnCloseShopItems?.Invoke();
-    }
-
+    
     public static Action OnRestart;
     public static void Restart()
     {

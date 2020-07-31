@@ -54,12 +54,12 @@ public class Platformer : MonoBehaviour
 
     void OnEnable()
     {
-        Events.OnCheckpointReached += CheckpointReached;
+        GameEvents.OnCheckpointReached += CheckpointReached;
     }
 
     void OnDisable()
     {
-        Events.OnCheckpointReached -= CheckpointReached;
+        GameEvents.OnCheckpointReached -= CheckpointReached;
     }
 
     void CheckpointReached(Transform target)
@@ -293,7 +293,7 @@ public class Platformer : MonoBehaviour
             yield return null;
         }
                 
-        Events.FinalPositionReached();
+        GameEvents.FinalPositionReached();
         SkeletonParent.gameObject.SetActive(false);
     }
 

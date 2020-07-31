@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
         if (collision.tag == ETags.Player.ToString())
         {
             print("player reached checkpoint");
-            Events.CheckpointReached(FinalPosition);
+            GameEvents.CheckpointReached(FinalPosition);
         }
     }
 

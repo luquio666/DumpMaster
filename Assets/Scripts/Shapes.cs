@@ -7,6 +7,8 @@ public class Shapes : MonoBehaviour
     public SpriteRenderer SR;
     public Sprite[] Variations;
 
+    public GameObject PFX;
+
     [Space]
 
     public float MaxTorque = 50f;
@@ -16,7 +18,8 @@ public class Shapes : MonoBehaviour
 
     public float MaxSize = 2.5f;
     public float MinSize = 1.5f;
-    public float DistanceToFreeze = 10f;
+
+    bool _pfxAlreadyPlayed = false;
 
     void OnEnable()
     {
@@ -37,13 +40,22 @@ public class Shapes : MonoBehaviour
         this.GetComponent<Rigidbody2D>().AddTorque(targetTorque);
     }
 
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        PlayParticles();
+    }
+
+    void PlayParticles()
+    {
+        if (!_pfxAlreadyPlayed)
+        {
+            _pfxAlreadyPlayed = true;
+            PFX.SetActive(true);
+        }
+    }
+
     public void SetSorting(int index)
     {
         SR.sortingOrder = index;
-    }
-
-    void Update()
-    {
-        // Check distance below player to remove rigidbody physics
     }
 }

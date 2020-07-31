@@ -15,13 +15,9 @@ public class Spawner : MonoBehaviour
     Coroutine _spawnCo;
     bool _spawnEnabled;
 
-    public void ButtonStart()
+    private void Start()
     {
         StartSpawn();
-    }
-    public void ButtonEnd()
-    {
-        EndSpawn();
     }
 
     void StartSpawn()
