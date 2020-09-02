@@ -39,6 +39,8 @@ public class Platformer : MonoBehaviour
 
     public Transform SkeletonParent;
     public SkeletonAnimation Skel;
+    public SkeletonDataAsset Normal;
+    public SkeletonDataAsset Muscular;
     string _setAnim;
     string _addAnim;
 
@@ -202,7 +204,7 @@ public class Platformer : MonoBehaviour
         _setAnim = "";
     }
 
-    void PlayAnimation(string setAnim, string addAnim)
+    void PlayAnimation(string setAnim, string addAnim, SkeletonAnimation newSkel = null)
     {
         if (_setAnim != setAnim || _addAnim != addAnim)
         {
@@ -211,12 +213,28 @@ public class Platformer : MonoBehaviour
 
             if (string.IsNullOrEmpty(addAnim))
             {
-                Skel.AnimationState.SetAnimation(0, setAnim, true);
+                if (newSkel != null)
+                {
+                    newSkel.AnimationState.SetAnimation(0, setAnim, true);
+                }
+                else
+                {
+                    Skel.AnimationState.SetAnimation(0, setAnim, true);
+                }
             }
             else
             {
-                Skel.AnimationState.SetAnimation(0, setAnim, false).TrackEnd = float.PositiveInfinity;
-                Skel.AnimationState.AddAnimation(0, addAnim, true, 0);
+                if (newSkel != null)
+                {
+                    newSkel.AnimationState.SetAnimation(0, setAnim, false).TrackEnd = float.PositiveInfinity;
+                    newSkel.AnimationState.AddAnimation(0, addAnim, true, 0);
+                }
+                else
+                {
+                    Skel.AnimationState.SetAnimation(0, setAnim, false).TrackEnd = float.PositiveInfinity;
+                    Skel.AnimationState.AddAnimation(0, addAnim, true, 0);
+                }
+                    
             }
         }
     }
@@ -228,8 +246,6 @@ public class Platformer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) && _usingPowerup == false)
         {
-            ResetAnimationState();
-            PlayAnimation("start_jump", "air_jump");
             _usingPowerup = true;
             _rb.bodyType = RigidbodyType2D.Kinematic;
             PlayerCollider.enabled = false;
@@ -240,7 +256,20 @@ public class Platformer : MonoBehaviour
 
     IEnumerator PowerupCo()
     {
-        yield return null;
+        ResetAnimationState();
+        PlayAnimation("start_jump", "conversion");
+        yield return new WaitForSeconds(0.233f);
+        Skel.skeletonDataAsset = Muscular;
+        var skeletonUtility = Skel.gameObject.GetComponent<SkeletonUtility>();
+        skeletonUtility.enabled = false;
+        skeletonUtility.GetBoneRoot().gameObject.SetActive(false);
+
+        Skel.Initialize(true);
+        Skel.ClearState();
+
+        Skel.AnimationState.SetAnimation(0, "appear", false).TrackEnd = float.PositiveInfinity;
+        Skel.AnimationState.AddAnimation(0, "start_fly", false, 0);
+        Skel.AnimationState.AddAnimation(0, "flying", true, 0);
 
         _rb.velocity = Vector3.zero;
 
@@ -248,6 +277,8 @@ public class Platformer : MonoBehaviour
        _powerupTarget = new Vector3(0, this.transform.position.y + PowerupDistanceTravel, 0);
 
         var colSizeTarget = 2.5f;
+
+        yield return new WaitForSeconds(.315f);
 
         while (this.transform.position != _powerupTarget)
         {
@@ -267,8 +298,15 @@ public class Platformer : MonoBehaviour
 
         PowerupCollider.radius = 0.5f;
         PlayerCollider.enabled = true;
-
         PowerupCollider.enabled = false;
+        Skel.skeletonDataAsset = Normal;
+        Skel.Initialize(true);
+        Skel.ClearState();
+        
+        skeletonUtility.enabled = true;
+        skeletonUtility.GetBoneRoot().gameObject.SetActive(true);
+
+        PlayAnimation("idle", "");
     }
 
     IEnumerator GoToFinalPosition(Transform target)

@@ -1,0 +1,125 @@
+
+character_muscular_fly.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer_57
+  rotate: false
+  xy: 406, 220
+  size: 282, 279
+  orig: 282, 279
+  offset: 0, 0
+  index: -1
+chest
+  rotate: false
+  xy: 406, 45
+  size: 330, 173
+  orig: 330, 173
+  offset: 0, 0
+  index: -1
+crouch_white
+  rotate: false
+  xy: 406, 501
+  size: 530, 510
+  orig: 530, 510
+  offset: 0, 0
+  index: -1
+displacement
+  rotate: false
+  xy: 2, 147
+  size: 402, 864
+  orig: 402, 864
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 264, 33
+  size: 129, 112
+  orig: 129, 112
+  offset: 0, 0
+  index: -1
+left_arm_01
+  rotate: false
+  xy: 2, 2
+  size: 129, 143
+  orig: 129, 143
+  offset: 0, 0
+  index: -1
+left_arm_02
+  rotate: true
+  xy: 738, 9
+  size: 93, 102
+  orig: 93, 102
+  offset: 0, 0
+  index: -1
+left_forearm_01
+  rotate: false
+  xy: 738, 104
+  size: 85, 139
+  orig: 85, 139
+  offset: 0, 0
+  index: -1
+left_forearm_02
+  rotate: false
+  xy: 930, 39
+  size: 61, 100
+  orig: 61, 100
+  offset: 0, 0
+  index: -1
+left_leg
+  rotate: false
+  xy: 938, 601
+  size: 59, 198
+  orig: 59, 198
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: true
+  xy: 842, 3
+  size: 99, 86
+  orig: 99, 86
+  offset: 0, 0
+  index: -1
+right_forearm_01
+  rotate: false
+  xy: 825, 104
+  size: 85, 139
+  orig: 85, 139
+  offset: 0, 0
+  index: -1
+right_forearm_02
+  rotate: false
+  xy: 940, 499
+  size: 61, 100
+  orig: 61, 100
+  offset: 0, 0
+  index: -1
+right_leg
+  rotate: false
+  xy: 938, 801
+  size: 66, 210
+  orig: 66, 210
+  offset: 0, 0
+  index: -1
+rigth_arm_01
+  rotate: false
+  xy: 133, 2
+  size: 129, 143
+  orig: 129, 143
+  offset: 0, 0
+  index: -1
+rigth_arm_02
+  rotate: false
+  xy: 912, 141
+  size: 92, 102
+  orig: 92, 102
+  offset: 0, 0
+  index: -1
+torso
+  rotate: true
+  xy: 690, 245
+  size: 254, 248
+  orig: 254, 248
+  offset: 0, 0
+  index: -1
